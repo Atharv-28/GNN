@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caching and local data
+cached_data/
+data/
+
+# Model checkpoints and weights
+checkpoints/
+*.pt
+*.pth
+
+# Virtual environments
+venv/
+env/
+ENV/
+bin/
+include/
+lib/
+share/
+pyvenv.cfg
+
+# Logs and reports
+*.log
+training.log
+changesReport
+
+# IDE and Editor configs
+.vscode/
+.idea/
+.gemini/
+.ipynb_checkpoints/
+
+# Operating System files
+Thumbs.db
+desktop.ini
+.DS_Store
