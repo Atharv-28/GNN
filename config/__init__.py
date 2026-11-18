@@ -13,17 +13,20 @@ etc.) continue to work without modification.
 # ── Backward-compatible re-export from the original root config.py ───
 # graph_builder.py, train.py and others do: from config import HGCMConfig
 # We satisfy that by importing it here from the original module location.
-import importlib, sys
-
-# Load the root-level config.py directly by file path so the package
-# name collision does not cause a circular import.
 import importlib.util as _ilu
+import sys as _sys
 import pathlib as _pl
 
 _root_config_path = _pl.Path(__file__).resolve().parent.parent / "config.py"
-_spec = _ilu.spec_from_file_location("_root_config", _root_config_path)
-_root_config = _ilu.module_from_spec(_spec)
-_spec.loader.exec_module(_root_config)
+
+# Register under a stable module name so pickle can round-trip HGCMConfig
+if "_hgcm_root_config" not in _sys.modules:
+    _spec = _ilu.spec_from_file_location("_hgcm_root_config", _root_config_path)
+    _root_config = _ilu.module_from_spec(_spec)
+    _sys.modules["_hgcm_root_config"] = _root_config
+    _spec.loader.exec_module(_root_config)
+else:
+    _root_config = _sys.modules["_hgcm_root_config"]
 
 HGCMConfig = _root_config.HGCMConfig   # re-export for backward compat
 

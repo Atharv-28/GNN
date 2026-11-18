@@ -122,3 +122,16 @@ NUM_FAKE_NEWS_CLASSES: int = len(FAKE_NEWS_LABELS)   # 2
 # ─────────────────────────────────────────────────────────────────────
 
 UNCERTAIN_LABEL: int = -1   # Exclude from training; retain for analysis
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  Convenience aliases used by inference / predictor code
+# ─────────────────────────────────────────────────────────────────────
+
+# idx → label string  (alias for HATE_SPEECH_LABELS — avoids long names in hot paths)
+IDX_TO_LABEL: Dict[int, str] = HATE_SPEECH_LABELS
+
+# Individual string constants (avoid bare string literals in inference code)
+LABEL_NORMAL:      str = HATE_SPEECH_LABELS[HateSpeechLabel.NORMAL]       # "normal"
+LABEL_OFFENSIVE:   str = HATE_SPEECH_LABELS[HateSpeechLabel.OFFENSIVE]    # "offensive"
+LABEL_HATE_SPEECH: str = HATE_SPEECH_LABELS[HateSpeechLabel.HATE_SPEECH]  # "hate_speech"
