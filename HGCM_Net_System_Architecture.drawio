@@ -1,0 +1,186 @@
+<mxfile host="app.diagrams.net" agent="5.0">
+  <diagram id="HGCM-Net-Architecture" name="HGCM-Net Architecture">
+    <mxGraphModel dx="490" dy="268" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="860" background="#0F172A" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g1_group" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#475569;strokeWidth=2;dashed=1;dashPattern=8 8;fontColor=#94A3B8;fontFamily=Inter, Helvetica, sans-serif;fontSize=14;fontStyle=1;align=center;verticalAlign=top;" value="I. WELFake Preprocessing &amp; Encoding" vertex="1">
+          <mxGeometry height="810" width="280" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="g2_group" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#475569;strokeWidth=2;dashed=1;dashPattern=8 8;fontColor=#94A3B8;fontFamily=Inter, Helvetica, sans-serif;fontSize=14;fontStyle=1;align=center;verticalAlign=top;" value="II. Heterogeneous Graph Builder" vertex="1">
+          <mxGeometry height="810" width="280" x="360" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="g3_group" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#475569;strokeWidth=2;dashed=1;dashPattern=8 8;fontColor=#94A3B8;fontFamily=Inter, Helvetica, sans-serif;fontSize=14;fontStyle=1;align=center;verticalAlign=top;" value="III. HGCM-Net Model Backbone" vertex="1">
+          <mxGeometry height="810" width="300" x="680" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_group" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#475569;strokeWidth=2;dashed=1;dashPattern=8 8;fontColor=#94A3B8;fontFamily=Inter, Helvetica, sans-serif;fontSize=14;fontStyle=1;align=center;verticalAlign=top;" value="IV. Multi-Task Loss &amp; Classifier" vertex="1">
+          <mxGeometry height="810" width="300" x="1020" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="g1_1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;strokeColor=#F59E0B;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;WELFake Dataset (HuggingFace)&lt;/b&gt;&lt;br/&gt;72,094 Articles&lt;br/&gt;(35,028 Real / 37,066 Fake)" vertex="1">
+          <mxGeometry height="70" width="220" x="70" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g1_2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;strokeColor=#F59E0B;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Text Cleaner &amp;amp; Concatenation&lt;/b&gt;&lt;br/&gt;Clean &amp;amp; merge: Title + Body&lt;br/&gt;(Truncate to 2048 chars)" vertex="1">
+          <mxGeometry height="70" width="220" x="70" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="g1_3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;SentenceTransformer Encoder&lt;/b&gt;&lt;br/&gt;Model: &lt;i&gt;all-MiniLM-L6-v2&lt;/i&gt;&lt;br/&gt;Extracts 384-dim dense embeddings" vertex="1">
+          <mxGeometry height="70" width="220" x="70" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="g1_4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;MiniBatchKMeans Clustering&lt;/b&gt;&lt;br/&gt;Group content embeddings (K=800)&lt;br/&gt;to synthesize 800 user clusters" vertex="1">
+          <mxGeometry height="70" width="220" x="70" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="g1_5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;strokeColor=#F59E0B;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Style Feature Extractor&lt;/b&gt;&lt;br/&gt;Extract 10 text-statistic metrics&lt;br/&gt;(Word/char counts, capitalization, etc)" vertex="1">
+          <mxGeometry height="70" width="220" x="70" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="g2_1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#15213b;strokeColor=#3B82F6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Content Nodes (C_i)&lt;/b&gt;&lt;br/&gt;- Features: 384-dim ST embeddings&lt;br/&gt;- Labels (y_i): 0 (Real) or 1 (Fake)" vertex="1">
+          <mxGeometry height="70" width="220" x="390" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="g2_2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;strokeColor=#F59E0B;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Primary Edge Simulation&lt;/b&gt;&lt;br/&gt;Link content to its user cluster&lt;br/&gt;&amp;rho; &amp;isin; [0.7, 1.0], &amp;tau; &amp;isin; [0, 48] hrs" vertex="1">
+          <mxGeometry height="70" width="220" x="390" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="g2_3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;strokeColor=#F59E0B;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Secondary Edge Simulation&lt;/b&gt;&lt;br/&gt;20% cross-cluster social sharing&lt;br/&gt;&amp;rho; &amp;isin; [0.3, 0.7], &amp;tau; &amp;isin; [24, 720] hrs" vertex="1">
+          <mxGeometry height="70" width="220" x="390" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="g2_4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#12271e;strokeColor=#10B981;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;User Nodes (U_j)&lt;/b&gt;&lt;br/&gt;- Nodes: 800 synthesized clusters&lt;br/&gt;- Features: 10-dim style averages" vertex="1">
+          <mxGeometry height="70" width="220" x="390" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="g2_5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Temporal Decay Weighting&lt;/b&gt;&lt;br/&gt;w_ij = &amp;rho;_ij / (1 + log(1 + &amp;tau;_ij))&lt;br/&gt;Reflects interaction timing decay" vertex="1">
+          <mxGeometry height="70" width="220" x="390" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="g2_6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#15213b;strokeColor=#3B82F6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;HeteroData Graph (PyG)&lt;/b&gt;&lt;br/&gt;- user &amp;rarr; interacts_with &amp;rarr; content&lt;br/&gt;- content &amp;rarr; rev_interacts_with &amp;rarr; user" vertex="1">
+          <mxGeometry height="80" width="220" x="390" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="g3_6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Skip-Connection Projection&lt;/b&gt;&lt;br/&gt;Linear Projection Layer&lt;br/&gt;Maps raw features: 384-dim &amp;rarr; 64-dim" vertex="1">
+          <mxGeometry height="70" width="240" x="710" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g3_5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#15213b;strokeColor=#3B82F6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;GNN Node Embeddings&lt;/b&gt;&lt;br/&gt;Outputs: H_C (64-dim content emb)&lt;br/&gt;and H_U (64-dim user emb)" vertex="1">
+          <mxGeometry height="70" width="240" x="710" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="g3_4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;HeteroGAT Conv Layer 2&lt;/b&gt;&lt;br/&gt;GATConv: 2 heads, out_dim: 64&lt;br/&gt;concat=False, aggr=&#39;sum&#39;" vertex="1">
+          <mxGeometry height="70" width="240" x="710" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="g3_3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Activation &amp;amp; Dropout&lt;/b&gt;&lt;br/&gt;LeakyReLU (slope=0.2) + Dropout&lt;br/&gt;Prevents overfitting &amp;amp; co-adaptation" vertex="1">
+          <mxGeometry height="70" width="240" x="710" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="g3_2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;HeteroGAT Conv Layer 1&lt;/b&gt;&lt;br/&gt;GATConv: 4 heads, hidden_dim: 128&lt;br/&gt;Propagates user &amp;amp; content features" vertex="1">
+          <mxGeometry height="70" width="240" x="710" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="g3_1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;User Projector (MLP)&lt;/b&gt;&lt;br/&gt;Linear &amp;rarr; BN &amp;rarr; ReLU &amp;rarr; Dropout &amp;rarr; Linear&lt;br/&gt;Maps user features: 10-dim &amp;rarr; 384-dim" vertex="1">
+          <mxGeometry height="70" width="240" x="710" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Feature Concatenation&lt;/b&gt;&lt;br/&gt;Combines final GNN H_C (64-dim)&lt;br/&gt;with projected raw C (64-dim) &amp;rarr; 128-dim" vertex="1">
+          <mxGeometry height="70" width="240" x="1050" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e1b29;strokeColor=#8B5CF6;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Classification Head (MLP)&lt;/b&gt;&lt;br/&gt;Linear &amp;rarr; BN &amp;rarr; ReLU &amp;rarr; Dropout &amp;rarr; Linear&lt;br/&gt;Outputs: 1-dimensional logits" vertex="1">
+          <mxGeometry height="70" width="240" x="1050" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d191d;strokeColor=#EF4444;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Binary Classification Output&lt;/b&gt;&lt;br/&gt;Logits &amp;rarr; Sigmoid Threshold&lt;br/&gt;(Real = 0 vs. Fake/Harmful = 1)" vertex="1">
+          <mxGeometry height="70" width="240" x="1050" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d191d;strokeColor=#EF4444;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Classification Loss (L_BCE)&lt;/b&gt;&lt;br/&gt;Binary Cross Entropy with Logits&lt;br/&gt;Supervised loss over content labels" vertex="1">
+          <mxGeometry height="70" width="240" x="1050" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d191d;strokeColor=#EF4444;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Contrastive Loss (L_CL)&lt;/b&gt;&lt;br/&gt;NT-Xent Loss on 512-node mini-batch&lt;br/&gt;Aligns interacting user &amp;amp; content spaces" vertex="1">
+          <mxGeometry height="70" width="240" x="1050" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d191d;strokeColor=#EF4444;strokeWidth=2;fontColor=#F8FAFC;fontFamily=Inter, Helvetica, sans-serif;fontSize=12;" value="&lt;b&gt;Total Loss Objective (L_total)&lt;/b&gt;&lt;br/&gt;L = L_BCE + &amp;lambda; * L_CL + &amp;alpha; * ||&amp;theta;||^2&lt;br/&gt;&amp;lambda; = 0.05 (CL weight), &amp;alpha; = 1e-4 (L2 decay)" vertex="1">
+          <mxGeometry height="80" width="240" x="1050" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_0" edge="1" parent="1" source="g1_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g1_2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_1" edge="1" parent="1" source="g1_2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g1_3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_2" edge="1" parent="1" source="g1_3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;fillColor=light-dark(transparent,#FFFFFF);" target="g1_4" value="Embeddings">
+          <mxGeometry relative="1" y="30" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_3" edge="1" parent="1" source="g1_2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g1_5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_4" edge="1" parent="1" source="g1_3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_1" value="384-dim features">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_5" edge="1" parent="1" source="g1_4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_4" value="Cluster IDs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_6" edge="1" parent="1" source="g1_5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_4" value="10-dim stats">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_7" edge="1" parent="1" source="g2_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_8" edge="1" parent="1" source="g2_4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_9" edge="1" parent="1" source="g2_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_10" edge="1" parent="1" source="g2_4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_11" edge="1" parent="1" source="g2_2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_5" value="Direct Links">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_12" edge="1" parent="1" source="g2_3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_5" value="Social Shares">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_13" edge="1" parent="1" source="g2_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_14" edge="1" parent="1" source="g2_4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_15" edge="1" parent="1" source="g2_5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g2_6" value="Weights (w_ij)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_16" edge="1" parent="1" source="g2_6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g3_1" value="User Features">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_17" edge="1" parent="1" source="g2_6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g3_2" value="Graph &amp; Edges">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_18" edge="1" parent="1" source="g2_6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g3_6" value="Raw Content Features">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_19" edge="1" parent="1" source="g3_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g3_2" value="384-dim User features">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_20" edge="1" parent="1" source="g3_2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g3_3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_21" edge="1" parent="1" source="g3_3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g3_4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_22" edge="1" parent="1" source="g3_4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g3_5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_23" edge="1" parent="1" source="g3_5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_1" value="Content GNN H_C">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_24" edge="1" parent="1" source="g3_6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_1" value="Projected Raw Content">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_25" edge="1" parent="1" source="g3_5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_5" value="GNN H_C &amp;amp; H_U">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_26" edge="1" parent="1" source="g4_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_27" edge="1" parent="1" source="g4_2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_28" edge="1" parent="1" source="g4_3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_29" edge="1" parent="1" source="g4_4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_6" value="Supervised Loss">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_30" edge="1" parent="1" source="g4_5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B;strokeWidth=1.5;fontColor=#E2E8F0;fontFamily=Inter, Helvetica, sans-serif;fontSize=10;" target="g4_6" value="Contrastive Loss">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
