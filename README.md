@@ -35,6 +35,21 @@ To run inference and predict labels for content posts (higher scores = more like
 python predict.py --data-dir data --checkpoint checkpoints/best_model.pt --top-k 5
 ```
 
+### Binary Hate-Speech Fine-Tuning
+The original 3-class HGCM-Net experiment is preserved. For binary hate vs
+non-hate detection, use the transformer path below. It augments HateXplain
+training data with TweetEval-Hate, while keeping the official HateXplain
+validation and test splits untouched:
+```bash
+python -m pip install -r requirements.txt
+python tasks/hate_speech/train_binary.py
+python tasks/hate_speech/predict_binary.py --text "Post to classify"
+```
+The default model is `distilroberta-base` for local CPU/4-GB GPU use. Use
+`--max-train-samples 128` for a smoke test; this is not a meaningful accuracy
+benchmark. A 90% result must be measured on the fixed HateXplain test split,
+not inferred from training accuracy.
+
 ---
 
 ## 📁 Demo Dataset Structure
